@@ -10,3 +10,6 @@ class Brick(Turtle):
         self.color(color)
         self.speed("fastest")
         self.goto(x, y)
+
+    def destroy_brick(self):
+        self.hideturtle()
