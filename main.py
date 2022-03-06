@@ -17,21 +17,19 @@ paddle = Paddle((0, -280))
 ball = Ball((0, -270))
 scoreboard = Scoreboard()
 
-w_brick_list = []
-g_brick_list = []
-r_brick_list = []
+brick_list = []
 
 
 def place_bricks():
-    global w_brick_list, g_brick_list, r_brick_list
+    global brick_list
     offset = 0
     for i in range(17):
         w_brick = Brick(x=-370 + offset, y=200, color="white")
-        w_brick_list.append(w_brick)
+        brick_list.append(w_brick)
         g_brick = Brick(x=-370 + offset, y=150, color="green")
-        g_brick_list.append(g_brick)
+        brick_list.append(g_brick)
         r_brick = Brick(x=-370 + offset, y=100, color="red")
-        r_brick_list.append(r_brick)
+        brick_list.append(r_brick)
         offset += 45
 
 
@@ -62,26 +60,16 @@ while games_is_on:
 
     elif ball.ycor() < -290:
         ball.reset_position(paddle.position() + (0, 20))
-        scoreboard.point()
 
     # Detect collision with brick
-    for brick in w_brick_list:
+    for brick in brick_list:
         if ball.distance(brick) < 30:
             ball.bounce_y()
-            w_brick_list.remove(brick)
+            brick_list.remove(brick)
             brick.destroy_brick()
-    for brick in g_brick_list:
-        if ball.distance(brick) < 30:
-            ball.bounce_y()
-            g_brick_list.remove(brick)
-            brick.destroy_brick()
-    for brick in r_brick_list:
-        if ball.distance(brick) < 30:
-            ball.bounce_y()
-            r_brick_list.remove(brick)
-            brick.destroy_brick()
+            scoreboard.point()
 
-    if len(w_brick_list) == 0 and len(g_brick_list) == 0 and len(r_brick_list) == 0:
+    if len(brick_list) == 0:
         games_is_on = False
 
 screen.exitonclick()
